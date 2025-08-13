@@ -1,0 +1,20 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+const { title, publishDate, updatedDate, tags = [] } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <article class="prose max-w-none">
+    <header class="mb-6">
+      <h1 class="text-3xl font-extrabold mb-2">{title}</h1>
+      <p class="text-sm text-gray-400">
+        發佈：<time datetime={publishDate.toISOString()}>{publishDate.toLocaleDateString()}</time>
+        {updatedDate && <> · 更新：<time datetime={updatedDate.toISOString()}>{updatedDate.toLocaleDateString()}</time></>}
+      </p>
+      {tags.length > 0 && (
+        <ul class="flex flex-wrap gap-2 mt-2">{tags.map((t)=> <li class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700">#{t}</li>)}</ul>
+      )}
+    </header>
+    <slot />
+  </article>
+</BaseLayout>

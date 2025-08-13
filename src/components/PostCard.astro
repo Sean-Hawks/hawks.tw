@@ -1,0 +1,22 @@
+---
+const { entry } = Astro.props;
+const { data, slug } = entry;
+const url = `/posts/${slug}/`;
+---
+
+<article class="group border border-gray-800 rounded-2xl p-5 bg-gray-900/30 hover:bg-gray-900/50 transition">
+  <a href={url} class="no-underline">
+    <h3 class="text-lg font-semibold group-hover:text-brand">{data.title}</h3>
+  </a>
+  {data.summary && <p class="mt-2 text-gray-300">{data.summary}</p>}
+  <div class="mt-3 text-xs text-gray-400 flex items-center gap-3">
+    <time datetime={data.publishDate.toISOString()}>
+      {data.publishDate.toLocaleDateString()}
+    </time>
+    {data.tags && data.tags.length > 0 && (
+      <div class="flex gap-2 flex-wrap">
+        {data.tags.map((t)=> <a href={`/tags/${t}/`} class="underline hover:no-underline">#{t}</a>)}
+      </div>
+    )}
+  </div>
+</article>

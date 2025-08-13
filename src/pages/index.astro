@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getSortedPosts } from "../utils/collections";
+import PostCard from "../components/PostCard.astro";
+const posts = await getSortedPosts();
+const latest = posts.slice(0, 10);
+---
+
+<BaseLayout title="hawks.tw">
+  <section class="grid md:grid-cols-2 gap-6 items-start">
+    <div class="rounded-2xl p-6 border border-gray-800 bg-gray-900/50">
+      <img src="/favicon.svg" alt="hawks.tw" class="w-16 h-16 mb-4" />
+      <h2 class="text-2xl font-bold">Oh hi! I’m Hawks.</h2>
+      <p class="text-gray-300 mt-2">a Learning Developer from Taiwan。偶爾發發一些動畫/電影觀後感、技術分享、小小心得。</p>
+      <div class="mt-4 flex gap-4 text-sm">
+        <a href="https://github.com/Sean-Hawks/" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://x.com/" target="_blank" rel="noopener">X</a>
+        <a href="mailto:me@hawks.tw">Email</a>
+      </div>
+    </div>
+    <div class="space-y-4">
+      {latest.map((p) => <PostCard entry={p} />)}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+const tagMap = new Map<string, number>();
+for (const p of posts) {
+  for (const t of (p.data.tags ?? [])) {
+    tagMap.set(t, (tagMap.get(t) ?? 0) + 1);
+  }
+}
+const tags = Array.from(tagMap.entries()).sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="Tags | hawks.tw">
+  <h1 class="text-2xl font-bold mb-4">Tags</h1>
+  <ul class="flex flex-wrap gap-3">
+    {tags.map(([t, n]) => <li class="px-3 py-1 rounded-full bg-gray-800 border border-gray-700"><a href={`/tags/${t}/`}>#{t}</a> <span class="text-xs text-gray-400 ml-1">{n}</span></li>)}
+  </ul>
+</BaseLayout>

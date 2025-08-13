@@ -1,0 +1,3 @@
+Sitemap: https://hawks.tw/sitemap.xml
+User-agent: *
+Allow: /

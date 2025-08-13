@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getSortedPosts } from "../../utils/collections";
+
+export async function getStaticPaths() {
+  const posts = await getSortedPosts();
+  const pageSize = 10;
+  const totalPages = Math.max(1, Math.ceil(posts.length / pageSize));
+  return Array.from({ length: totalPages }, (_, i) => ({ params: { page: String(i + 1) } }));
+}
+
+const { page } = Astro.params;
+const current = Number(page ?? "1");
+const pageSize = 10;
+const posts = await getSortedPosts();
+const start = (current - 1) * pageSize;
+const items = posts.slice(start, start + pageSize);
+---
+
+<BaseLayout title={`Page ${current} | hawks.tw`}>
+  <section class="space-y-4">
+    {items.map((p) => <PostCard entry={p} />)}
+  </section>
+</BaseLayout>
